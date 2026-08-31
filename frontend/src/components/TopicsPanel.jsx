@@ -2,6 +2,7 @@ import React from 'react';
 
 const TOPIC_GROUPS = [
   {
+    cat: 'prog',
     label: 'Programming',
     topics: [
       { icon: '⚛️', text: 'What is React and how does it work?' },
@@ -11,6 +12,7 @@ const TOPIC_GROUPS = [
     ],
   },
   {
+    cat: 'cs',
     label: 'Computer Science',
     topics: [
       { icon: '🧠', text: 'What is Machine Learning?' },
@@ -20,6 +22,7 @@ const TOPIC_GROUPS = [
     ],
   },
   {
+    cat: 'devops',
     label: 'DevOps & Cloud',
     topics: [
       { icon: '🐳', text: 'What is Docker and containerization?' },
@@ -36,7 +39,7 @@ const LANGUAGES = [
   { value: 'gu', label: 'ગુજરાતી' },
 ];
 
-function TopicsPanel({ open, language, onLanguageChange, onTopicClick, t }) {
+function TopicsPanel({ open, language, onLanguageChange, onTopicClick }) {
   return (
     <aside className={`tv-sidebar${open ? ' open' : ''}`}>
       <div className="tv-sidebar-header">
@@ -45,7 +48,7 @@ function TopicsPanel({ open, language, onLanguageChange, onTopicClick, t }) {
 
       <div className="tv-topics-list">
         {TOPIC_GROUPS.map(group => (
-          <div key={group.label} className="tv-topic-group">
+          <div key={group.cat} className="tv-topic-group" data-cat={group.cat}>
             <div className="tv-topic-group-label">{group.label}</div>
             {group.topics.map(topic => (
               <button
@@ -62,16 +65,20 @@ function TopicsPanel({ open, language, onLanguageChange, onTopicClick, t }) {
         ))}
       </div>
 
-      <select
-        className="tv-lang-select"
-        value={language}
-        onChange={e => onLanguageChange(e.target.value)}
-        title="Select language"
-      >
-        {LANGUAGES.map(l => (
-          <option key={l.value} value={l.value}>{l.label}</option>
-        ))}
-      </select>
+      {/* Language selector styled as pill */}
+      <div className="tv-lang-pill">
+        <span className="tv-lang-globe">🌐</span>
+        <select
+          value={language}
+          onChange={e => onLanguageChange(e.target.value)}
+          title="Select language"
+        >
+          {LANGUAGES.map(l => (
+            <option key={l.value} value={l.value}>{l.label}</option>
+          ))}
+        </select>
+        <span className="tv-lang-chevron">▾</span>
+      </div>
     </aside>
   );
 }
